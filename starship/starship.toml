@@ -1,0 +1,28 @@
+# Makes prompt a single line
+[line_break]
+disabled = true
+
+# Disable the package module, hiding it from the prompt completely
+[package]
+disabled = true
+
+# Show command duration over 2,000 milliseconds (= 2 sec)
+[cmd_duration]
+disabled = true
+
+# Set success and error characters
+[character]
+# success_symbol = "[❯](bold green)[❯](bold green)[❯](bold green)"
+success_symbol = "[❯](bold red)[❯](bold yellow)[❯](bold green)"
+error_symbol = "[❯❯❯](bold red)"
+# success_symbol = "[>](bold red)[>](bold yellow)[>](bold green)"
+# error_symbol = "[✗✗✗](bold red)"  
+
+
+# Set directory symbol
+[directory]
+truncation_length = 1
+format = "[  ](bold cyan) [$path]($style)[$lock_symbol]($lock_style) "
+style = "bold cyan"
+read_only = "🔒"
+read_only_style= "bold red"
