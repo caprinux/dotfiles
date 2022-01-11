@@ -4,15 +4,44 @@
 ```
 .
 ├── bash
+│   ├── bashaliases
 │   └── bashrc
+├── kitty
+│   ├── kitty.conf
+│   ├── nord.conf
+│   └── theme.conf
+├── neofetch
+│   ├── blockfetch.conf
+│   ├── config.conf
+│   └── images
+│       ├── arch_dark.png
+│       ├── arch.png
+│       ├── artix.png
+│       ├── bedrock.png
+│       ├── gentoo_dark.png
+│       ├── gentoo.png
+│       ├── lofi.png
+│       ├── sakura.png
+│       ├── ubuntu_dark.png
+│       ├── ubuntu.png
+│       ├── void_dark.png
+│       └── void.png
 ├── nvim
-│   └── init.vim
+│   └── init.lua
 ├── README.md
 ├── starship
 │   └── starship.toml
-└── terminator
-    └── config
+├── terminator
+│   └── config
+└── vagrant
+    ├── setup
+    │   ├── bashrc
+    │   ├── tmux.conf
+    │   └── xterm-kitty
+    ├── Vagrantfile
+    └── Vagrantfile.erb
 
+9 directories, 28 files
 ```
 
 Font used: [Microsoft Cascadia Code](https://github.com/microsoft/cascadia-code)
