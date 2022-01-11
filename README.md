@@ -46,6 +46,10 @@
 
 Font used: [Microsoft Cascadia Code](https://github.com/microsoft/cascadia-code)
 
-![image](https://user-images.githubusercontent.com/76640319/141664479-3273c4c4-ddb6-4a30-bd4c-e233ccd14d00.png)
+![image](https://user-images.githubusercontent.com/76640319/148891018-67d87610-56dc-4b6b-8707-0a500d573a41.png)
 
-![image](https://user-images.githubusercontent.com/76640319/141664541-d4d06174-7f80-4116-a77b-00d43e70950d.png)
+![image](https://user-images.githubusercontent.com/76640319/148891179-92989a55-f0e2-45b2-86ac-dc405eaf945b.png)
+
+![image](https://user-images.githubusercontent.com/76640319/148891243-e36b9bb2-6ee6-46a6-b448-60a50783b314.png)
+
+
