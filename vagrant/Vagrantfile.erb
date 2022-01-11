@@ -1,0 +1,23 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "<%= box_name %>"
+  <% if box_version -%>
+  config.vm.box_version = "<%= box_version %>"
+  <% end -%>
+  <% if box_url -%>
+  config.vm.box_url = "<%= box_url %>"
+  <% end -%>
+  # config.vm.network "forwarded_port", guest: 80, host: 8080
+  # config.vm.network "private_network", type: "dhcp"
+  config.vm.provider "virtualbox" do |vb|
+  #  vb.memory = "4096"
+  #  vb.cpus = 4
+    vb.name = "default"
+  end
+  
+  config.vm.provision "file", source: "~/Workspace/Vagrant/setup/bashrc", destination: "/home/vagrant/.bashrc"
+  config.vm.provision "file", source: "~/Workspace/Vagrant/setup/tmux.conf", destination:"/home/vagrant/.tmux.conf"
+  config.vm.provision "file", source: "~/Workspace/Vagrant/setup/xterm-kitty", destination:"/home/vagrant/.terminfo/x/xterm-kitty"
+end
