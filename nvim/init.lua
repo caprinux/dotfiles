@@ -1,9 +1,10 @@
 vim.cmd [[packadd packer.nvim]]
-require('packer').startup(function()
+require('packer').startup{ function()
 	use { 'wbthomason/packer.nvim' }
+	use { 'lewis6991/impatient.nvim' }
 	use { 'folke/tokyonight.nvim' }
 	use { 'lukas-reineke/indent-blankline.nvim', event = 'BufRead' }
-	use { 'norcalli/nvim-colorizer.lua' } 
+	use { 'norcalli/nvim-colorizer.lua' }
 	use { 'nvim-treesitter/nvim-treesitter' }
 	use { 'dense-analysis/ale',
 		ft = {'sh', 'c', 'python', 'lua'},
@@ -15,7 +16,16 @@ require('packer').startup(function()
 		after = 'coq_nvim'}
 	use { 'preservim/nerdtree', cmd = 'NERDTree' }	
 	use { 'airblade/vim-gitgutter' }
-end)
+	use {
+    'numToStr/Comment.nvim',
+    config = function()
+        require('Comment').setup()
+    end
+	}
+	end }
+
+require('impatient')
+require('Comment').setup()
 
 vim.opt.rnu = true
 vim.opt.number = true
@@ -31,7 +41,7 @@ additional_vim_regex_highlighting = false,
 }}
 
 vim.cmd([[
-let b:ale_linters = ['vint', 'cquery', 'clang', 'flake8', 'shellcheck', 'bashate']
+let b:ale_linters = ['luacheck', 'vint', 'cquery', 'clang', 'flake8', 'shellcheck', 'bashate']
 let b:ale_fixers = ['autopep8', 'yapf']
 let b:ale_warn_about_trailing_whitespace = 0
 let g:ale_python_flake8_options = '--ignore=E226,E501,F403,F405,E201,E123'
@@ -104,6 +114,7 @@ noremap <leader>8 8gt
 noremap <leader>9 9gt
 noremap <leader>f za
 nnoremap <silent> <C-l> :nohl<CR><C-l>
+noremap <leader>f :FZF<Enter>
 noremap <leader>p :GitGutterToggle<Enter>
 noremap <leader>l :ALEToggle<Enter>
 noremap <leader>t :tabnew<Enter>
