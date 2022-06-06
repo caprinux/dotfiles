@@ -7,9 +7,9 @@
 alias ls='ls --color=auto'
 PS1='[\u@\h \W]\$ '
 
-# load bash_aliases
-if [[ -f ~/.bash_aliases ]]; then
- source ~/.bash_aliases 
+# load aliases
+if [[ -f ~/.aliases ]]; then
+ source ~/.aliases 
 fi
 
 # colorize commands
@@ -22,6 +22,7 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+	alias ll='ls -al'
 fi
 . /usr/share/LS_COLORS/dircolors.sh
 
@@ -29,12 +30,13 @@ fi
 etc=/home/cap/Workspace/etc
 
 # startup
-PATH=/home/cap/Workspace/bin:$PATH:/home/cap/.local/bin:/home/cap/.local/share/gem/ruby/3.0.0/bin
+PATH=/home/cap/.gem/ruby/3.0.0/bin:/home/cap/Workspace/bin:$PATH:/home/cap/.local/bin:/home/cap/.local/share/gem/ruby/3.0.0/bin
 eval "$(starship init bash)"
 
 # etc
 # export _JAVA_OPTIONS="-Dsun.java2d.uiScale=2"
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+export DEBUGINFOD_URLS="https://debuginfod.archlinux.org"
 export EDITOR="nvim"
 export PYTHONBREAKPOINT=ipdb.set_trace
 export PYTHONWARNINGS="ignore"
@@ -55,8 +57,6 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 --color=info:#af87ff,prompt:#5fff87,pointer:#ff87d7,marker:#ff87d7,spinner:#ff87d7'
 export FZF_COMPLETION_TRIGGER=,,
 
-
-
 # >>>> Vagrant command completion (start)
 . /opt/vagrant/embedded/gems/2.2.19/gems/vagrant-2.2.19/contrib/bash/completion.sh
 # <<<<  Vagrant command completion (end)
@@ -68,8 +68,7 @@ PERL_MB_OPT="--install_base \"/home/cap/.perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/home/cap/.perl5"; export PERL_MM_OPT;
 
 
-
-
+# KEYCHRON FN KEY FIX
 if sudo test -f "/sys/module/hid_apple/parameters/fnmode" ; then
 	if [[ $(cat /sys/module/hid_apple/parameters/fnmode) == "1" ]] ; then
 		sudo bash -c 'echo '0' > /sys/module/hid_apple/parameters/fnmode'
@@ -80,3 +79,7 @@ fi
 # BEGIN_KITTY_SHELL_INTEGRATION
 if test -n "$KITTY_INSTALLATION_DIR" -a -e "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; then source "$KITTY_INSTALLATION_DIR/shell-integration/bash/kitty.bash"; fi
 # END_KITTY_SHELL_INTEGRATION
+
+playerctld daemon 2>/dev/null
+
+export JAVA_HOME=/usr/lib/jvm/liberica-jre-8-full

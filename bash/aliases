@@ -6,6 +6,7 @@ alias fzfs=$'rg . | fzf --print0 -e | awk -F: \'{print $1}\''
 alias neo='neofetch'
 
 # ctf aliases
+alias autopsy='wine ~/.wine/drive_c/Program\ Files/Autopsy-4.19.3/bin/autopsy64.exe'
 alias ida32='wine ~/Workspace/CTF/Tools/Pwn/IDA/IDA\ Pro\ 7.6/ida.exe'
 alias ida64='wine ~/Workspace/CTF/Tools/Pwn/IDA/IDA\ Pro\ 7.6/ida64.exe'
 alias dbg='gdb -q --eval-command=init-pwndbg'
@@ -16,6 +17,7 @@ alias libcid='~/Workspace/CTF/Tools/Pwn/libcdb/identify'
 alias vup='vagrant up && vagrant ssh'
 alias vssh='vagrant ssh'
 alias vhalt='vagrant halt'
+alias ex='chmod +x '
 
 # dir transverse
 alias tools='cd ~/Workspace/CTF/Tools'

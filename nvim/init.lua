@@ -16,6 +16,7 @@ require('packer').startup{ function()
 		after = 'coq_nvim'}
 	use { 'preservim/nerdtree', cmd = 'NERDTree' }	
 	use { 'airblade/vim-gitgutter' }
+	use { 'windwp/nvim-ts-autotag' }
 	use {
     'numToStr/Comment.nvim',
     config = function()
@@ -26,6 +27,7 @@ require('packer').startup{ function()
 
 require('impatient')
 require('Comment').setup()
+require('nvim-ts-autotag').setup()
 
 vim.opt.rnu = true
 vim.opt.number = true
@@ -41,7 +43,7 @@ additional_vim_regex_highlighting = false,
 }}
 
 vim.cmd([[
-let b:ale_linters = ['luacheck', 'vint', 'cquery', 'clang', 'flake8', 'shellcheck', 'bashate']
+let b:ale_linters = ['luacheck', 'vint', 'cquery', 'clang', 'flake8', 'shellcheck', 'bashate', 'cargo']
 let b:ale_fixers = ['autopep8', 'yapf']
 let b:ale_warn_about_trailing_whitespace = 0
 let g:ale_python_flake8_options = '--ignore=E226,E501,F403,F405,E201,E123'

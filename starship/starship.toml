@@ -26,3 +26,6 @@ format = "[  ](bold cyan) [$path]($style)[$lock_symbol]($lock_style) "
 style = "bold cyan"
 read_only = "🔒"
 read_only_style= "bold red"
+
+[python]
+disabled = true
