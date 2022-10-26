@@ -1,31 +1,35 @@
-# Makes prompt a single line
-[line_break]
-disabled = true
+# format = "[:#](#ff8aae) $all"
 
-# Disable the package module, hiding it from the prompt completely
+# Makes prompt a single line
+# [line_break]
+# disabled = true
 [package]
 disabled = true
 
-# Show command duration over 2,000 milliseconds (= 2 sec)
 [cmd_duration]
 disabled = true
 
 # Set success and error characters
 [character]
-# success_symbol = "[❯](bold green)[❯](bold green)[❯](bold green)"
-success_symbol = "[❯](bold red)[❯](bold yellow)[❯](bold green)"
-error_symbol = "[❯❯❯](bold red)"
-# success_symbol = "[>](bold red)[>](bold yellow)[>](bold green)"
-# error_symbol = "[✗✗✗](bold red)"  
+# success_symbol = "[:;](#ffc4e1)"
+# error_symbol = "[:;](bold red)"
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"
 
+[hostname]
+format = "[$hostname](#ff7878) in "
+style = "bold red"
+
+[username]
+format = "[$user](#94b3fd) on "
 
 # Set directory symbol
-[directory]
-truncation_length = 1
-format = "[  ](bold cyan) [$path]($style)[$lock_symbol]($lock_style) "
-style = "bold cyan"
-read_only = "🔒"
-read_only_style= "bold red"
+# [directory]
+# truncation_length = 1
+# format = "[  ](bold cyan) [$path]($style)[$lock_symbol]($lock_style) "
+# style = "bold cyan"
+# read_only = "🔒"
+# read_only_style= "bold red"
 
 [python]
 disabled = true
