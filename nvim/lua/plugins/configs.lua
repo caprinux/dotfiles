@@ -51,7 +51,6 @@ M.nvim_tree = function ()
 	require("nvim-tree").setup({
 		disable_netrw = true,
 		hijack_netrw = true,
-
 	})
 end
 
@@ -88,6 +87,27 @@ end
 
 M.lualine = function()
 	require("plugins.evil_lualine")
+end
+
+M.bufline = function()
+	vim.opt.mousemev = true
+	require("bufferline").setup({
+		options = {
+			mode = "tabs",
+			hover = {
+				enabled = true,
+				delay = 200,
+				reveal = {'close'}
+			},
+			offsets = {
+				filetype = "NvimTree",
+				text = "File Explorer",
+				highlight = "Directory",
+				separator = true,
+			},
+			always_show_bufferline = false,
+		},
+	})
 end
 
 return M

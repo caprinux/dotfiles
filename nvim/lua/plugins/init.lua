@@ -63,6 +63,14 @@ if present then
 		end,
 	}
 
+	use {"akinsho/bufferline.nvim",
+		event = "TabNew",
+		tag = "v3.*",
+		config = function()
+			configs.bufline()
+		end,
+	}
+
 	use { "nvim-treesitter/nvim-treesitter",
 		setup = function()
 			lazy.on_file_open "nvim-treesitter"
