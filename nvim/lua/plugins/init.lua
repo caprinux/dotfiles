@@ -148,10 +148,6 @@ if present then
 		config = function()
 			configs.nvim_tree()
 		end,
-		setup = function()
-			vim.g.loaded_netrw = 1
-			vim.g.loaded_netrwPlugin = 1
-		end,
 	}
 
 	use { "nvim-telescope/telescope.nvim",
@@ -190,6 +186,14 @@ if present then
 		config = function()
 			require('leap').add_default_mappings()
 		end,
+	}
+
+	use { 'chentoast/marks.nvim',
+		keys = { "mx", "m," },
+		config = function()
+			require("marks").setup()
+		end,
+
 	}
 
 end

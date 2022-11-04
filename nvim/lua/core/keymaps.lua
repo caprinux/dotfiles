@@ -14,9 +14,8 @@ vim.keymap.set('n', '<Leader>9', '9gt')
 
 vim.keymap.set('n', '<C-l>', ':nohl<CR>')
 vim.keymap.set('n', '<Leader>r', ':term python %<CR>i')
-vim.keymap.set('n', '<Leader>f', ':FZF<CR>')
-vim.keymap.set('n', '<Leader>t', ':tabnew<CR>')
-vim.keymap.set('n', '<Leader>w', ':tabclose<CR>')
+vim.keymap.set('n', '<C-t>', ':tabnew<CR>')
+vim.keymap.set('n', '<C-w>', ':tabclose<CR>')
 vim.keymap.set('n', '<Leader>d', ':NvimTreeToggle<CR>')
 
-vim.keymap.set("n", "<Leader>fr", ":Telescope oldfiles<CR>", { noremap = true, silent = true })
+-- vim.keymap.set("n", "<Leader>fr", ":Telescope oldfiles<CR>", { noremap = true, silent = true })
