@@ -7,6 +7,7 @@ local lualine = require('lualine')
 -- stylua: ignore
 local colors = {
   bg       = '#202328',
+  -- bg       = '#1b1212',
   fg       = '#bbc2cf',
   yellow   = '#ECBE7B',
   cyan     = '#008080',
