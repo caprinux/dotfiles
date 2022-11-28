@@ -263,7 +263,7 @@ if tostring(res) == "1" then
 else
 
 	require("alpha.term")
-	local ret = os.execute "command -v neo-matrix &>/dev/null"
+	local ret = os.execute "command -v neo-matrix"
 	local term_or_text = nil
 	local term_height = 10
 	if ret == 0 then
