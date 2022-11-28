@@ -18,11 +18,9 @@ if present then
 
 	use "nvim-lua/plenary.nvim"
 
-	-- ui
+	use "wbthomason/packer.nvim"
 
-	use { "wbthomason/packer.nvim",
-		cmd = lazy.packer_cmds,
-	}
+	-- ui
 
 	use { "lukas-reineke/indent-blankline.nvim",
 		setup = function()
