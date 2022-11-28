@@ -19,3 +19,8 @@ vim.keymap.set('n', '<C-w>', ':tabclose<CR>')
 vim.keymap.set('n', '<Leader>d', ':NvimTreeToggle<CR>')
 
 -- vim.keymap.set("n", "<Leader>fr", ":Telescope oldfiles<CR>", { noremap = true, silent = true })
+
+-- vim.keymap.set('n', 'gpd', ":lua require('goto-preview').goto_preview_definition()<CR>")
+-- vim.keymap.set('n', 'gpt', ":lua require('goto-preview').goto_preview_implementation()<CR>")
+-- vim.keymap.set('n', 'gP', ":lua require('goto-preview').close_all_win<CR>")
+-- vim.keymap.set('n', 'gpr', ":lua require('goto-preview').goto_preview_references<CR>")

@@ -1,4 +1,3 @@
-math = require("math")
 math.randomseed(os.time())
 local res = math.random(0,1)
 if tostring(res) == "1" then
@@ -26,7 +25,7 @@ if tostring(res) == "1" then
 	local fnamemodify = vim.fn.fnamemodify
 	local filereadable = vim.fn.filereadable
 
-	local leader = "SPC"
+	local leader = "\\"
 
 	--- @param sc string
 	--- @param txt string
@@ -275,7 +274,7 @@ else
 			-- height = term_height,
 			height = term_height,
 			opts = {
-				position = "center",
+				-- position = "center",
 				redraw = true,
 				window_config = {},
 			},
@@ -323,7 +322,7 @@ else
 		},
 	}
 
-	local leader = "SPC"
+	local leader = "\\"
 
 	--- @param sc string
 	--- @param txt string
@@ -362,10 +361,10 @@ else
 		type = "group",
 		val = {
 			button("e", "  New file", "<cmd>ene <CR>"),
-			button("SPC f f", "  Find file"),
-			button("SPC f h", "  Recently opened files"),
-			button("SPC f r", "  Frecency/MRU"),
-			button("SPC f g", "  Find word"),
+			button("\\ f f", "  Find file"),
+			button("\\ f h", "  Recently opened files"),
+			button("\\ f r", "  Frecency/MRU"),
+			button("\\ f g", "  Find word"),
 			-- button("SPC f m", "  Jump to bookmarks"),
 			-- button("SPC s l", "  Open last session"),
 		},
@@ -384,7 +383,7 @@ else
 
 	local config = {
 		layout = {
-			{ type = "padding", val = 1 },
+			-- { type = "padding", val = 10 },
 			section.header,
 			{ type = "padding", val = term_height+5 },
 			-- { type = "padding", val = 2 },

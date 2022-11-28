@@ -43,6 +43,7 @@ M.treesitter = function()
 		},
 		indent = {
 			enable = true,
+			disable = { "python" },
 		},
 	})
 end

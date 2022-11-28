@@ -14,5 +14,7 @@ vim.opt.list = true
 vim.opt.tabstop = 4
 vim.opt.shiftwidth = 4
 
+vim.opt.undofile = true
+
 require("core.keymaps")
 require("core.others")
