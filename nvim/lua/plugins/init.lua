@@ -20,9 +20,7 @@ if present then
 
 	-- ui
 
-	use { "wbthomason/packer.nvim",
-		cmd = lazy.packer_cmds,
-	}
+	use "wbthomason/packer.nvim"
 
 	use { "lukas-reineke/indent-blankline.nvim",
 		setup = function()
