@@ -18,9 +18,11 @@ if present then
 
 	use "nvim-lua/plenary.nvim"
 
-	use "wbthomason/packer.nvim"
-
 	-- ui
+
+	use { "wbthomason/packer.nvim",
+		cmd = lazy.packer_cmds,
+	}
 
 	use { "lukas-reineke/indent-blankline.nvim",
 		setup = function()
@@ -47,7 +49,17 @@ if present then
 		end,
 	}
 
+	-- use { "catppuccin/nvim",
+	-- 	as = "catppuccin",
+	-- 	after = "nvim-colorizer.lua",
+	-- 	config = function()
+	-- 		configs.catppuccin()
+	-- 		vim.cmd.colorscheme "catppuccin"
+	-- 	end,
+	-- }
+
 	use { "nvim-lualine/lualine.nvim",
+		-- after = "catppuccin",
 		after = "tokyonight.nvim",
 		config = function()
 			configs.lualine()
@@ -55,7 +67,7 @@ if present then
 	}
 
 	use { "nvim-tree/nvim-web-devicons",
-		after = "tokyonight.nvim",
+		after = "lualine.nvim",
 		config = function()
 			require("nvim-web-devicons").setup()
 		end,
@@ -150,10 +162,6 @@ if present then
 
 	use { "nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
-		keys = "ff",
-		config = function()
-			configs.telescope()
-		end,
 	}
 
 	use { "lewis6991/gitsigns.nvim",
