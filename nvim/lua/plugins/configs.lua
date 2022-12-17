@@ -78,6 +78,7 @@ M.catppuccin = function()
 			telescope = true,
 			nvimtree = true,
 			which_key = false,
+			treesitter_context = true,
 			indent_blankline = { enabled = true, colored_indent_levels = false },
 			dashboard = true,
 			neogit = false,
@@ -97,7 +98,7 @@ M.catppuccin = function()
 			notify = false,
 			symbols_outline = false,
 			coc_nvim = false,
-			leap = false,
+			leap = true,
 			neotree = { enabled = false, show_root = true, transparent_panel = false },
 			telekasten = false,
 			mini = false,
@@ -146,6 +147,7 @@ M.catppuccin = function()
 					CursorLineNr = { fg = cp.green },
 					Search = { bg = cp.surface1, fg = cp.pink, style = { "bold" } },
 					IncSearch = { bg = cp.pink, fg = cp.surface1 },
+					LeapBackdrop = { fg = cp.surface2 },
 
 					-- For native lsp configs.
 					DiagnosticVirtualTextError = { bg = cp.none },
@@ -273,6 +275,11 @@ M.treesitter = function()
 			enable = true,
 			disable = { "python" },
 		},
+		rainbow = {
+			enable = true,
+			extended_mode = true,
+			max_file_lines = nil,
+		}
 	})
 end
 
@@ -310,12 +317,18 @@ end
 
 
 M.lualine = function()
-	require("plugins.evil_lualine")
+	require('lualine').setup {
+		options = {
+			theme = "catppuccin"
+		}
+	}
+	-- require("plugins.evil_lualine")
 end
 
 M.bufline = function()
 	vim.opt.mousemev = true
 	require("bufferline").setup({
+		highlights = require("catppuccin.groups.integrations.bufferline").get(),
 		options = {
 			mode = "tabs",
 			hover = {
@@ -323,12 +336,12 @@ M.bufline = function()
 				delay = 200,
 				reveal = {'close'}
 			},
-			offsets = {
-				filetype = "NvimTree",
-				text = "File Explorer",
-				highlight = "Directory",
-				separator = true,
-			},
+			-- offsets = {
+			-- 	filetype = "NvimTree",
+			-- 	text = "File Explorer",
+			-- 	highlight = "Directory",
+			-- 	separator = true,
+			-- },
 			always_show_bufferline = false,
 		},
 	})

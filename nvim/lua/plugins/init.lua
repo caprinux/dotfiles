@@ -40,25 +40,34 @@ if present then
 		end,
 	}
 
-	use { "folke/tokyonight.nvim",
-		after = "nvim-colorizer.lua",
-		config = function()
-			configs.tokyonight()
-		end,
-	}
-
-	-- use { "catppuccin/nvim",
-	-- 	as = "catppuccin",
+	-- use { "folke/tokyonight.nvim",
 	-- 	after = "nvim-colorizer.lua",
 	-- 	config = function()
-	-- 		configs.catppuccin()
-	-- 		vim.cmd.colorscheme "catppuccin"
+	-- 		configs.tokyonight()
 	-- 	end,
 	-- }
 
+	-- use { "nyoom-engineering/oxocarbon.nvim",
+	-- 	after = "nvim-colorizer.lua",
+	-- 	config = function()
+	-- 		vim.opt.background = "dark" -- set this to dark or light
+	-- 		vim.cmd.colorscheme "oxocarbon"
+	-- 	end,
+	-- }
+
+	use { "catppuccin/nvim",
+		as = "catppuccin",
+		after = "nvim-colorizer.lua",
+		config = function()
+			configs.catppuccin()
+			vim.cmd.colorscheme "catppuccin"
+		end,
+	}
+
 	use { "nvim-lualine/lualine.nvim",
-		-- after = "catppuccin",
-		after = "tokyonight.nvim",
+		after = "catppuccin",
+		-- after = "tokyonight.nvim",
+		-- after = "oxocarbon.nvim",
 		config = function()
 			configs.lualine()
 		end,
@@ -88,6 +97,14 @@ if present then
 		config = function()
 			configs.treesitter()
 		end,
+	}
+
+	use { "p00f/nvim-ts-rainbow",
+		after = "nvim-treesitter",
+	}
+
+	use { 'nvim-treesitter/nvim-treesitter-context',
+		after = "nvim-treesitter",
 	}
 
 	use { "goolord/alpha-nvim",
@@ -189,6 +206,7 @@ if present then
 		keys = {"s", "S"},
 		config = function()
 			require('leap').add_default_mappings()
+			-- vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = 'grey' })
 		end,
 	}
 
@@ -200,5 +218,6 @@ if present then
 
 	}
 
-end
+	use { 'eandrju/cellular-automaton.nvim' }
 
+end
