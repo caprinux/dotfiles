@@ -80,13 +80,21 @@ if present then
 		end,
 	}
 
-	use {"akinsho/bufferline.nvim",
+	use { "akinsho/bufferline.nvim",
 		event = "TabNew",
 		tag = "v3.*",
 		config = function()
 			configs.bufline()
 		end,
 	}
+
+	use { "goolord/alpha-nvim",
+		config = function()
+			require("alpha").setup(require("plugins.startify").config)
+		end,
+	}
+
+	-- syntax highlighting
 
 	use { "nvim-treesitter/nvim-treesitter",
 		setup = function()
@@ -107,12 +115,6 @@ if present then
 		after = "nvim-treesitter",
 	}
 
-	use { "goolord/alpha-nvim",
-		config = function()
-			require("alpha").setup(require("plugins.startify").config)
-		end,
-	}
-
 	-- lsp
 
 	use { "neovim/nvim-lspconfig",
@@ -122,6 +124,14 @@ if present then
 		end,
 		config = function()
 			require("plugins.lsp")
+		end,
+	}
+
+	use { "jose-elias-alvarez/null-ls.nvim",
+		opt = true,
+		after = "nvim-lspconfig",
+		config = function()
+			configs.null_ls()
 		end,
 	}
 
@@ -177,6 +187,7 @@ if present then
 
 	use { "nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
+		module = "goto-preview",
 	}
 
 	use { "lewis6991/gitsigns.nvim",
@@ -203,7 +214,7 @@ if present then
 	}
 
 	use { 'ggandor/leap.nvim',
-		keys = {"s", "S"},
+		keys = { "s", "S" },
 		config = function()
 			require('leap').add_default_mappings()
 			-- vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = 'grey' })
@@ -217,6 +228,19 @@ if present then
 		end,
 
 	}
+
+	use { 'rmagatti/goto-preview',
+		keys = { "gpd", "gpr", "gpi" },
+		config = function()
+			require('goto-preview').setup {
+				default_mappings = true,
+				border = { "↖", "─", "╮", "│", "╯", "─", "╰", "│" }; -- Border characters of the floating window
+				opacity = 5,
+			}
+		end
+	}
+
+	-- useless but fun plugins
 
 	use { 'eandrju/cellular-automaton.nvim' }
 

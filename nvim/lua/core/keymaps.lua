@@ -15,15 +15,19 @@ vim.keymap.set('n', '<Leader>9', '9gt')
 vim.keymap.set('n', '<C-l>', ':nohl<CR>')
 vim.keymap.set('n', '<Leader>r', ':term python %<CR>i')
 vim.keymap.set('n', '<C-t>', ':tabnew<CR>')
-vim.keymap.set('n', '<C-w>', ':tabclose<CR>')
+-- vim.keymap.set('n', '<C-w>', ':tabclose<CR>')
 vim.keymap.set('n', '<Leader>d', ':NvimTreeToggle<CR>')
 
 vim.keymap.set("n", "<Leader>ff", ":Telescope find_files<CR>")
 vim.keymap.set("n", "<Leader>fh", ":Telescope oldfiles<CR>")
 vim.keymap.set("n", "<Leader>fr", ":Telescope oldfiles<CR>")
 vim.keymap.set("n", "<Leader>fg", ":Telescope live_grep<CR>")
+vim.keymap.set("n", "<Leader>fm", ":lua vim.lsp.buf.format()<CR>")
+
 
 vim.keymap.set("n", "zz", ":CellularAutomaton make_it_rain<CR>")
+
+
 
 -- vim.keymap.set('n', 'gpd', ":lua require('goto-preview').goto_preview_definition()<CR>")
 -- vim.keymap.set('n', 'gpt', ":lua require('goto-preview').goto_preview_implementation()<CR>")
