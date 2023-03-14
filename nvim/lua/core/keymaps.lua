@@ -25,10 +25,6 @@ vim.keymap.set("n", "<Leader>fg", ":Telescope live_grep<CR>")
 vim.keymap.set("n", "<Leader>fm", ":lua vim.lsp.buf.format()<CR>")
 
 
-vim.keymap.set("n", "zz", ":CellularAutomaton make_it_rain<CR>")
-
-
-
 -- vim.keymap.set('n', 'gpd', ":lua require('goto-preview').goto_preview_definition()<CR>")
 -- vim.keymap.set('n', 'gpt', ":lua require('goto-preview').goto_preview_implementation()<CR>")
 -- vim.keymap.set('n', 'gP', ":lua require('goto-preview').close_all_win<CR>")

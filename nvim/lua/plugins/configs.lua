@@ -36,7 +36,7 @@ M.catppuccin = function()
 			shade = "dark",
 			percentage = 0.15,
 		},
-		transparent_background = false,
+		transparent_background = true,
 		term_colors = true,
 		compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
 		styles = {
@@ -273,7 +273,7 @@ M.treesitter = function()
 		},
 		indent = {
 			enable = true,
-			disable = { "python" },
+			-- disable = { "python" },
 		},
 		rainbow = {
 			enable = true,
@@ -319,7 +319,7 @@ end
 M.lualine = function()
 	require('lualine').setup {
 		options = {
-			theme = "catppuccin"
+			theme = "nightfly"
 		}
 	}
 	-- require("plugins.evil_lualine")
@@ -365,6 +365,61 @@ M.null_ls = function()
 		-- debug = true,
 		sources = sources,
 	}
+end
+
+M.boring_statusline = function()
+vim.cmd[[hi StatusLine guibg=#1E1E2E ]] --[[ api.nvim_set_hl(0, "StatusLine", { ctermbg=Black }) ]]
+-- vim.cmd[[hi StatusLineNC ctermbg=Black]] -- vim.api.nvim_set_hl(0, "StatusLineNC", { ctermbg=Black })
+require("everybody-wants-that-line").setup({
+	buffer = {
+		enabled = true,
+		prefix = "B:",
+		-- Placeholder before buffer number, e.g. "00001".
+		-- If you don't want additional symbols to be displayed,
+		-- set `symbol = ""` or `max_symbols = 0`.
+		symbol = "0",
+		-- Maximum number of symbols including buffer number.
+		max_symbols = 5,
+	},
+	diagnostics = {
+		enabled = true,
+	},
+	quickfix_list = {
+		enabled = true,
+	},
+	git_status = {
+		enabled = true,
+	},
+	filepath = {
+		enabled = true,
+		-- `path` can be one of these:
+		-- "tail" - file name only
+		-- "relative" - relative to working directory
+		-- "full" - full path to the file
+		path = "relative",
+		-- If `true` a path will be shortened, e.g. "/a/b/c/filename.lua".
+		-- It only works if `path` is "relative" or "full".
+		shorten = false,
+	},
+	filesize = {
+		enabled = true,
+		-- `metric` can be:
+		-- "decimal" - 1000 bytes == 1 kilobyte
+		-- "binary" - 1024 bytes == 1 kibibyte
+		metric = "decimal"
+	},
+	ruller = {
+		enabled = true,
+	},
+	-- Filename is a separate widget that is located
+	-- in the upper right corner of each open window.
+	filename = {
+		enabled = true,
+	},
+	-- Separator between components, e.g. " ... │ ... │ ... "
+	separator = "│",
+})
+	
 end
 
 return M

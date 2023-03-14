@@ -8,7 +8,7 @@ vim.opt.cursorlineopt = 'number'
 
 vim.opt.signcolumn = 'yes:2'
 
-vim.opt.listchars = { trail = '•', eol = '¬', tab = '› '}
+vim.opt.listchars = { trail = '•', eol = '¬', tab = '  '}
 vim.opt.list = true
 
 vim.opt.tabstop = 4

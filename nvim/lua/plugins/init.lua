@@ -64,17 +64,17 @@ if present then
 		end,
 	}
 
-	use { "nvim-lualine/lualine.nvim",
+	use { "strash/everybody-wants-that-line.nvim",
 		after = "catppuccin",
+		config = function()
+			configs.boring_statusline()
+		end,
 		-- after = "tokyonight.nvim",
 		-- after = "oxocarbon.nvim",
-		config = function()
-			configs.lualine()
-		end,
 	}
 
 	use { "nvim-tree/nvim-web-devicons",
-		after = "lualine.nvim",
+		after = "everybody-wants-that-line.nvim",
 		config = function()
 			require("nvim-web-devicons").setup()
 		end,
@@ -239,9 +239,5 @@ if present then
 			}
 		end
 	}
-
-	-- useless but fun plugins
-
-	use { 'eandrju/cellular-automaton.nvim' }
 
 end
