@@ -1,16 +1,16 @@
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
 
--- if not vim.loop.fs_stat(lazypath) then
--- 	vim.fn.system({
--- 		"git",
--- 		"clone",
--- 		"--filter=blob:none",
--- 		"https://github.com/folke/lazy.nvim.git",
--- 		"--branch=stable", -- latest stable release
--- 		lazypath,
--- 	})
--- end
+if not vim.loop.fs_stat(lazypath) then
+	vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"https://github.com/folke/lazy.nvim.git",
+		"--branch=stable", -- latest stable release
+		lazypath,
+	})
+end
 vim.opt.rtp:prepend(lazypath)
 
 configs = require("plugins.configs")
@@ -18,6 +18,12 @@ configs = require("plugins.configs")
 require("lazy").setup({
 
 	-- ui
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("plugins.evilline").lualine()
+		end,
+	},
 	{
 		"folke/tokyonight.nvim",
 		config = function()
@@ -69,27 +75,27 @@ require("lazy").setup({
 	},
 
 	-- lsp
-	-- {
-	-- 	"neovim/nvim-lspconfig",
-	-- -- 	lazy = true,
-	-- 	dependencies = {
-	-- 		{"williamboman/mason-lspconfig.nvim"}
-	-- 	},
-	-- 	config = function()
-	-- 		configs.lsp()
-	-- 	end,
-	-- },
-
-	-- {
-	-- 	"williamboman/mason.nvim",
-	-- 	build = ":MasonUpdate",
+	{
+		"neovim/nvim-lspconfig",
 	-- 	lazy = true,
-	-- 	cmd = "Mason",
-	-- 	config = function()
-	-- 		require("mason").setup()
-	-- 	end,
-	--
-	-- },
+		config = function()
+			vim.diagnostic.disable() -- disable linting
+			local path = vim.fn.stdpath("data").."/mason/bin"
+			vim.env.PATH = path .. ":" .. vim.env.PATH -- hacky way to add mason to linux path
+			configs.lsp()
+		end,
+	},
+
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate",
+		lazy = true,
+		cmd = "Mason",
+		config = function()
+			require("mason").setup()
+		end,
+
+	},
 
 	-- completion
 	{
@@ -98,6 +104,8 @@ require("lazy").setup({
 		event = "InsertEnter",
 
 		dependencies = {
+			{ "L3MON4D3/LuaSnip" },
+			{ "saadparwaiz1/cmp_luasnip" },
 			{ "lukas-reineke/cmp-under-comparator" },
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-nvim-lua" },
