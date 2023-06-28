@@ -1,243 +1,224 @@
--- load packer
-local present, packer = pcall(require, "packer")
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 
-if present then
-	vim.cmd "packadd packer.nvim"
+-- if not vim.loop.fs_stat(lazypath) then
+-- 	vim.fn.system({
+-- 		"git",
+-- 		"clone",
+-- 		"--filter=blob:none",
+-- 		"https://github.com/folke/lazy.nvim.git",
+-- 		"--branch=stable", -- latest stable release
+-- 		lazypath,
+-- 	})
+-- end
+vim.opt.rtp:prepend(lazypath)
 
-	configs = require("plugins.configs")
-	lazy = require("core.lazy_load")
-	local init_options = configs.packer_init
+configs = require("plugins.configs")
 
-	packer.init(init_options)
-	use = packer.use
-	packer.reset()
-
-	-- load on startup
-
-	use "lewis6991/impatient.nvim"
-
-	use "nvim-lua/plenary.nvim"
+require("lazy").setup({
 
 	-- ui
+	{
+		"nvim-lualine/lualine.nvim",
+		config = function()
+			require("plugins.evilline").lualine()
+		end,
+	},
+	{
+		"folke/tokyonight.nvim",
+		config = function()
+			vim.cmd [[colorscheme tokyonight-night]]
+		end,
+		priority = 100,
+	},
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		lazy = true,
+		event = "BufRead",
+		config = function()
+			vim.defer_fn(function()
+				vim.cmd [[hi IndentBlanklineChar guifg=#292929]]
+				require("indent_blankline").setup()
+			end, 0)
 
-	use "wbthomason/packer.nvim"
-
-	use { "lukas-reineke/indent-blankline.nvim",
-		setup = function()
-			lazy.on_file_open "indent-blankline.nvim"
+		end,
+	},
+	{
+		"NvChad/nvim-colorizer.lua",
+		lazy = true,
+		event = "CursorMoved",
+		config = function()
+			require('colorizer').setup()
+			require('colorizer').attach_to_buffer(0)
+		end,
+	},
+	{
+		"lewis6991/gitsigns.nvim",
+		lazy = true,
+		-- event = "BufReadPre",
+		ft = { "gitcommit", "diff" },
+		init = function()
+			vim.api.nvim_create_autocmd("BufRead", {
+				group = vim.api.nvim_create_augroup("GitSignsLazyLoad", { clear = true }),
+				callback = function()
+					vim.fn.system("git -C " .. '"' .. vim.fn.expand "%:p:h" .. '"' .. " rev-parse")
+					if vim.v.shell_error == 0 then
+						vim.api.nvim_del_augroup_by_name "GitSignsLazyLoad"
+						vim.schedule(function()
+							require("lazy").load { plugins = { "gitsigns.nvim" } }
+						end)
+					end
+				end,
+				
+			})
 		end,
 		config = function()
-			configs.indent()
+			require('gitsigns').setup()
 		end,
-	}
+	},
 
-	use { "norcalli/nvim-colorizer.lua",
-		setup = function()
-			lazy.on_file_open "nvim-colorizer.lua"
-		end,
+	-- treesitter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
 		config = function()
-			configs.colorizer()
+			configs.ts()
 		end,
-	}
-
-	-- use { "folke/tokyonight.nvim",
-	-- 	after = "nvim-colorizer.lua",
-	-- 	config = function()
-	-- 		configs.tokyonight()
-	-- 	end,
-	-- }
-
-	-- use { "nyoom-engineering/oxocarbon.nvim",
-	-- 	after = "nvim-colorizer.lua",
-	-- 	config = function()
-	-- 		vim.opt.background = "dark" -- set this to dark or light
-	-- 		vim.cmd.colorscheme "oxocarbon"
-	-- 	end,
-	-- }
-
-	use { "catppuccin/nvim",
-		as = "catppuccin",
-		after = "nvim-colorizer.lua",
+		event = { "UIEnter" },
+		lazy = true,
+	},
+	{
+		"nvim-treesitter/nvim-treesitter-context",
+		lazy = true,
+		event = { "WinScrolled" },
 		config = function()
-			configs.catppuccin()
-			vim.cmd.colorscheme "catppuccin"
+			require("treesitter-context").setup({
+				enable = true,
+			})
 		end,
-	}
-
-	use { "strash/everybody-wants-that-line.nvim",
-		after = "catppuccin",
-		config = function()
-			configs.boring_statusline()
-		end,
-		-- after = "tokyonight.nvim",
-		-- after = "oxocarbon.nvim",
-	}
-
-	use { "nvim-tree/nvim-web-devicons",
-		after = "everybody-wants-that-line.nvim",
-		config = function()
-			require("nvim-web-devicons").setup()
-		end,
-	}
-
-	use { "akinsho/bufferline.nvim",
-		event = "TabNew",
-		tag = "v3.*",
-		config = function()
-			configs.bufline()
-		end,
-	}
-
-	use { "goolord/alpha-nvim",
-		config = function()
-			require("alpha").setup(require("plugins.startify").config)
-		end,
-	}
-
-	-- syntax highlighting
-
-	use { "nvim-treesitter/nvim-treesitter",
-		setup = function()
-			lazy.on_file_open "nvim-treesitter"
-		end,
-		cmd = lazy.treesitter_cmds,
-		run = ":TSUpdate",
-		config = function()
-			configs.treesitter()
-		end,
-	}
-
-	use { "p00f/nvim-ts-rainbow",
-		after = "nvim-treesitter",
-	}
-
-	use { 'nvim-treesitter/nvim-treesitter-context',
-		after = "nvim-treesitter",
-	}
+	},
 
 	-- lsp
-
-	use { "neovim/nvim-lspconfig",
-		opt = true,
-		setup = function()
-			lazy.on_file_open "nvim-lspconfig"
-		end,
+	{
+		"neovim/nvim-lspconfig",
+	-- 	lazy = true,
 		config = function()
-			require("plugins.lsp")
+			vim.diagnostic.disable() -- disable linting
+			local path = vim.fn.stdpath("data").."/mason/bin"
+			vim.env.PATH = path .. ":" .. vim.env.PATH -- hacky way to add mason to linux path
+			configs.lsp()
 		end,
-	}
+	},
 
-	use { "jose-elias-alvarez/null-ls.nvim",
-		opt = true,
-		after = "nvim-lspconfig",
-		config = function()
-			configs.null_ls()
-		end,
-	}
-
-	use { "williamboman/mason.nvim",
-		after = "nvim-lspconfig",
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate",
+		lazy = true,
+		cmd = "Mason",
 		config = function()
 			require("mason").setup()
 		end,
-	}
 
-	use { "williamboman/mason-lspconfig.nvim",
-		cmd = lazy.masonlsp_cmds,
-		config = function()
-			require("mason-lspconfig").setup()
-		end,
-	}
+	},
 
-
-	-- completion, snippets
-
-	use { "ms-jpq/coq_nvim",
+	-- completion
+	{
+		"hrsh7th/nvim-cmp",
+		lazy = true,
 		event = "InsertEnter",
-		branch = "coq",
-		setup = function()
-			vim.g.coq_settings = { auto_start = 'shut-up' }
-		end,
+
+		dependencies = {
+			{ "L3MON4D3/LuaSnip" },
+			{ "saadparwaiz1/cmp_luasnip" },
+			{ "lukas-reineke/cmp-under-comparator" },
+			{ "hrsh7th/cmp-nvim-lsp" },
+			{ "hrsh7th/cmp-nvim-lua" },
+			{ "andersevenrud/cmp-tmux" },
+			{ "hrsh7th/cmp-path" },
+			{ "hrsh7th/cmp-buffer" },
+		},
 		config = function()
-			require("coq")
+			configs.cmp()
 		end,
-	}
-
-	use { "ms-jpq/coq.artifacts",
-		branch = "artifacts",
-	}
-
-	-- misc
-
-	use { "numToStr/Comment.nvim",
-		module = "Comment",
-		keys = { "gc", "gb" },
+	},
+	{
+		"windwp/nvim-autopairs",
+		lazy = true,
+		event = "InsertEnter",
 		config = function()
-			require("Comment").setup()
+			require('nvim-autopairs').setup({
+				disable_filetype = {"TelescopePrompt", "vim"},
+				enable_check_bracket_line = true,
+			})
 		end,
-	}
 
-	use { "kyazdani42/nvim-tree.lua",
-		tag = "nightly",
+	},
+
+	-- git
+	{
+		'kdheepak/lazygit.nvim',
+		lazy = true,
+		init = function()
+			vim.keymap.set("n", "<Leader>gg", ":LazyGit<CR>")
+		end,
+		cmd = "LazyGit"
+	},
+	{
+		"kyazdani42/nvim-tree.lua",
+		lazy = true,
 		cmd = { "NvimTreeToggle", "NvimTreeFocus" },
+		init = function()
+			vim.keymap.set('n', '<Leader>d', ':NvimTreeToggle<CR>')
+			vim.g.loaded_netrw = 1
+			vim.g.loaded_netrwPlugin = 1
+		end,
+
+		opts = function()
+			return require "plugins.nvimtree"
+		end,
+		config = function(_, opts)
+			require("nvim-tree").setup(opts)
+		end,
+		dependencies = {
+			{ "nvim-tree/nvim-web-devicons" }
+		},
+	},
+
+
+	-- utils
+	{
+		"numToStr/Comment.nvim",
+		lazy = true,
+		keys = { "gc", "gcc" },
+		event = { "ModeChanged" },
 		config = function()
-			configs.nvim_tree()
-		end,
-	}
-
-	use { "nvim-telescope/telescope.nvim",
-		cmd = "Telescope",
-		module = "goto-preview",
-	}
-
-	use { "lewis6991/gitsigns.nvim",
-		ft = "gitcommit",
-		setup = function()
-			lazy.gitsigns()
-		end,
+			require('Comment').setup()
+		end
+	},
+	{
+		"folke/todo-comments.nvim",
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
-			configs.gitsigns()
-		end,
-	}
-
-	use { "windwp/nvim-autopairs",
-		after = "coq_nvim",
-		config = function()
-			configs.autopairs()
-		end,
-	}
-
-
-	use { 'dstein64/vim-startuptime',
-		cmd = 'StartupTime',
-		config = [[vim.g.startuptime_tries = 10]]
-	}
-
-	use { 'ggandor/leap.nvim',
-		keys = { "s", "S" },
+			require("todo-comments").setup()
+		end
+	},
+	{
+		"ggandor/leap.nvim",
+		lazy = true,
+		keys = {"s", "S"},
+		dependencies = {
+			{ "tpope/vim-repeat" },
+		},
 		config = function()
 			require('leap').add_default_mappings()
-			-- vim.api.nvim_set_hl(0, 'LeapBackdrop', { fg = 'grey' })
 		end,
-	}
-
-	use { 'chentoast/marks.nvim',
-		keys = { "mx", "m," },
+	},
+	{
+		"ggandor/flit.nvim",
+		lazy = true,
+		keys = {"f", "F", "t", "T"},
 		config = function()
-			require("marks").setup()
+			require('flit').setup()
 		end,
+	},
+})
 
-	}
-
-	use { 'rmagatti/goto-preview',
-		keys = { "gpd", "gpr", "gpi" },
-		config = function()
-			require('goto-preview').setup {
-				default_mappings = true,
-				border = { "↖", "─", "╮", "│", "╯", "─", "╰", "│" }; -- Border characters of the floating window
-				opacity = 5,
-			}
-		end
-	}
-
-end

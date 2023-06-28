@@ -16,5 +16,6 @@ vim.opt.shiftwidth = 4
 
 vim.opt.undofile = true
 
-require("core.keymaps")
-require("core.others")
+require "core.keymaps"
+
+vim.g.python3_host_prog = "/usr/bin/python3"
