@@ -19,6 +19,7 @@ M.ts = function()
 			max_file_lines = nil,
 		}
 	})
+
 end
 
 M.cmp = function()
@@ -68,6 +69,11 @@ M.cmp = function()
 end
 
 M.lsp = function()
+
+
+	vim.api.nvim_set_keymap("n", "GD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { noremap = true, silent = true })
+	vim.api.nvim_set_keymap("n", "Gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { noremap = true, silent = true })
+
 	local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 	require'lspconfig'.lua_ls.setup {

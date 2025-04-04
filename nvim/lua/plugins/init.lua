@@ -1,15 +1,28 @@
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+-- initialize lazy.nvim
 
--- if not vim.loop.fs_stat(lazypath) then
--- 	vim.fn.system({
--- 		"git",
--- 		"clone",
--- 		"--filter=blob:none",
--- 		"https://github.com/folke/lazy.nvim.git",
--- 		"--branch=stable", -- latest stable release
--- 		lazypath,
--- 	})
--- end
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not (vim.uv or vim.loop).fs_stat(lazypath) then
+	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
+	local out = vim.fn.system({
+		"git",
+		"clone",
+		"--filter=blob:none",
+		"--branch=stable",
+		lazyrepo,
+		lazypath,
+	})
+
+	if vim.v.shell_error ~= 0 then
+		vim.api.nvim_echo({
+			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
+			{ out, "WarningMsg" },
+			{ "\nPress any key to exit..." },
+		}, true, {})
+
+		vim.fn.getchar()
+		os.exit(1)
+	end
+end
 vim.opt.rtp:prepend(lazypath)
 
 configs = require("plugins.configs")
@@ -82,6 +95,7 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
+			vim.treesitter.language.register('python', 'sage')
 			configs.ts()
 		end,
 		event = { "UIEnter" },
@@ -100,25 +114,37 @@ require("lazy").setup({
 
 	-- lsp
 	{
+		"smjonas/inc-rename.nvim",
+		lazy = true,
+		cmd = "IncRename",
+		opts = {},
+	},
+	{
 		"neovim/nvim-lspconfig",
-	-- 	lazy = true,
+		lazy = true,
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
-			vim.diagnostic.disable() -- disable linting
+			vim.diagnostic.enable(false) -- disable linting
 			local path = vim.fn.stdpath("data").."/mason/bin"
 			vim.env.PATH = path .. ":" .. vim.env.PATH -- hacky way to add mason to linux path
 			configs.lsp()
 		end,
 	},
-
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate",
 		lazy = true,
 		cmd = "Mason",
-		config = function()
-			require("mason").setup()
-		end,
+		opts = {},
 
+	},
+	{
+		"ray-x/lsp_signature.nvim",
+		event = "InsertEnter",
+		opts = {
+			-- cfg options
+			bind = true,
+		},
 	},
 
 	-- completion
@@ -145,13 +171,10 @@ require("lazy").setup({
 		"windwp/nvim-autopairs",
 		lazy = true,
 		event = "InsertEnter",
-		config = function()
-			require('nvim-autopairs').setup({
-				disable_filetype = {"TelescopePrompt", "vim"},
-				enable_check_bracket_line = true,
-			})
-		end,
-
+		opts = {
+			disable_filetype = {"TelescopePrompt", "vim"},
+			enable_check_bracket_line = true,
+		},
 	},
 
 	-- git
@@ -191,16 +214,19 @@ require("lazy").setup({
 		lazy = true,
 		keys = { "gc", "gcc" },
 		event = { "ModeChanged" },
-		config = function()
-			require('Comment').setup()
-		end
+		opts = {},
+		-- config = function()
+		-- 	require('Comment').setup()
+		-- end
 	},
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("todo-comments").setup()
-		end
+		opts = {},
+		event = "CursorMoved",
+		-- config = function()
+		-- 	require("todo-comments").setup()
+		-- end
 	},
 	{
 		"ggandor/leap.nvim",
@@ -221,5 +247,23 @@ require("lazy").setup({
 			require('flit').setup()
 		end,
 	},
+	{
+		"mbbill/undotree",
+		lazy = true,
+		cmd = "UndotreeToggle",
+	},
+	{
+		'nvim-telescope/telescope.nvim', tag = '0.1.8',
+		dependencies = { 'nvim-lua/plenary.nvim' },
+		lazy = true,
+		keys = {"<leader>ff", "<leader>fg", "<leader>fb", "<leader>fr"},
+		config = function()
+			local builtin = require('telescope.builtin')
+			vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = 'Telescope find files' })
+			vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = 'Telescope live grep' })
+			vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = 'Telescope buffers' })
+			-- vim.keymap.set('n', '<leader>gr', builtin.buffers, { desc = 'Telescope buffers' })
+			vim.keymap.set('n', '<leader>fr', ':Telescope lsp_references<CR>')
+		end
+	}
 })
-
